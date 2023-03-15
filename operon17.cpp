@@ -69,6 +69,7 @@ int wiek(string pesel)
 int main()
 {
 	MK();
+	cout << endl;
 	string pesel;
 	for (int i = 0; i < 200; i++)
 	{
@@ -76,6 +77,7 @@ int main()
 		if (!kontrolna(stoll(pesel))) cout << pesel << endl;
 	}
 	plik.close();
+	cout << endl;
 	plik.open("pesel.txt");
 	int a = 0; //grupa wiekowa do 18 lat włącznie
 	int b = 0; //grupa wiekowa od 19 do 50 lat
