@@ -55,6 +55,17 @@ bool kontrolna(long long int pesel)
 	else return false;
 }
 
+int wiek(string pesel)
+{
+	int wiek = 0;
+	long long PESEL = stoll(pesel);
+	int rocz = PESEL /= 1000000000;
+	if (pesel[2] == '8' || pesel[2] == '9') wiek += 100;
+	else if (pesel[2] == '2' || pesel[2] == '3') wiek = 22 - rocz;
+	else wiek = 22 + 100 - rocz;
+	return wiek;
+}
+
 int main()
 {
 	MK();
@@ -66,6 +77,19 @@ int main()
 	}
 	plik.close();
 	plik.open("pesel.txt");
+	int a = 0; //grupa wiekowa do 18 lat włącznie
+	int b = 0; //grupa wiekowa od 19 do 50 lat
+	int c = 0; //grupa wiekowa od 51 do 100 lat
+	int d = 0; //grupa wiekowa powwyżej 100 lat
+	for (int i = 0; i < 200; i++)
+	{
+		plik >> pesel;
+		if (wiek(pesel) < 19) a++;
+		else if (wiek(pesel) > 18 && wiek(pesel) < 51) b++;
+		else if (wiek(pesel) > 50 && wiek(pesel) < 101) c++;
+		else if (wiek(pesel) > 100) d++;
+	}
+	cout << "Do 18 lat wlacznie: " << a << endl << "Od 19 do 50 lat: " << b << endl << "Od 51 do 100 lat: " << c << endl << "Powyzej 100 lat: " << d << endl;
 }
 
 // Uruchomienie programu: Ctrl + F5 lub menu Debugowanie > Uruchom bez debugowania
