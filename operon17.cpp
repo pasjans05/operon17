@@ -2,6 +2,7 @@
 //
 #include <iostream>
 #include <fstream>
+#include <string>
 using namespace std;
 
 ifstream plik("pesel.txt");
@@ -18,11 +19,53 @@ void MK()
 		else if (PESEL[9] == '0' || PESEL[9] == '2' || PESEL[9] == '4' || PESEL[9] == '6' || PESEL[9] == '8') k++;
 	}
 	cout << m << " mezczyzn i " << k << " kobiet \n";
+	plik.close();
+	plik.open("pesel.txt");
+}
+
+bool kontrolna(long long int pesel)
+{
+	int kontr = pesel % 10;
+	pesel /= 10;
+	int sum = 0;
+	int a;
+	int b; //waga mnożenia cyfry z numeru PESEL
+	for (int i = 0; i < 10; i++)
+	{
+		a = pesel % 10;
+		switch (i % 4)
+		{
+			case 0:
+				b = 3;
+				break;
+			case 1:
+				b = 1;
+				break;
+			case 2:
+				b = 9;
+				break;
+			case 3:
+				b = 7;
+				break;
+		}
+		sum += (a * b)%10;
+		pesel /= 10;
+	}
+	if ((10 - (sum % 10)) == kontr) return true;
+	else return false;
 }
 
 int main()
 {
 	MK();
+	string pesel;
+	for (int i = 0; i < 200; i++)
+	{
+		plik >> pesel;
+		if (!kontrolna(stoll(pesel))) cout << pesel << endl;
+	}
+	plik.close();
+	plik.open("pesel.txt");
 }
 
 // Uruchomienie programu: Ctrl + F5 lub menu Debugowanie > Uruchom bez debugowania
